@@ -10,6 +10,7 @@ import json
 import os
 import glob
 import bitalino
+import requests
 
 
 class ConnectDialog(QtWidgets.QDialog):
@@ -17,6 +18,13 @@ class ConnectDialog(QtWidgets.QDialog):
         super().__init__()
         uic.loadUi('connect_dialog.ui', self)
         self.show()
+
+class ResponseDialog(QtWidgets.QDialog):
+    def __init__(self, message):
+        super().__init__()
+        uic.loadUi('response.ui', self)
+        self.show()
+        self.resp_label.setText(message)
 
 class Plotter(QtWidgets.QMainWindow):
     def __init__(self):
@@ -30,7 +38,12 @@ class Plotter(QtWidgets.QMainWindow):
         pg.setConfigOption('foreground', '#000000')
         #self.mac_address = "98:D3:71:FD:62:1F"
         #self.device = bitalino.BITalino(self.mac_address)
-        
+        self.training_url = 'https://ingestion.edgeimpulse.com/api/training/data'
+        self.empty_sign = ''.join(['0'] * 64)
+        self.api_key = ""
+        self.filename = ""
+        self.label = ""
+
 
         self.plot_widget = pg.PlotWidget()
         self.plot_lay.addWidget(self.plot_widget)
@@ -51,12 +64,53 @@ class Plotter(QtWidgets.QMainWindow):
         self.timer.timeout.connect(self.update)
         self.time_ledit.setText("5")
         self.apply_t_b.clicked.connect(self.apply_time)
+        self.upload_b.clicked.connect(self.upload_data)
 
         self.fsrb_10.toggled.connect(self.fsrb_onclick)
         self.fsrb_100.toggled.connect(self.fsrb_onclick)
         self.fsrb_1000.toggled.connect(self.fsrb_onclick)
 
         self.timer.start(1)
+
+    def upload_data(self):
+        api_key = self.apik_ledit.text()
+        filename = self.fname_ledit.text()
+        label = self.label_ledit.text()
+
+        newh = {
+            'x-api-key': api_key,
+            'Content-Type': 'application/json',
+            'x-file-name': filename + '.json',
+            'x-label': label
+        }
+
+        data_payload = {
+            "protected": {
+                "ver": "v1",
+                "alg": "HS256",
+                "iat": 0  # Timestamp de la creación del dato
+            },
+            "signature": self.empty_sign,  # La firma, si es necesaria; de lo contrario, dejar vacío
+            "payload": {
+                "device_name": "98:D3:71:FD:62:1F",  # Nombre de tu dispositivo
+                "device_type": "Bitalino",
+                "interval_ms": 1,  # Intervalo entre muestras en milisegundos
+                "sensors": [
+                    { "name": "emg1", "units": "mV" }
+                ],
+                "values": [
+                    [value] for value in self.data  
+                ]
+            }
+        }
+        response = requests.post(self.training_url, headers=newh, json=data_payload)
+        
+        if response.status_code == 200:
+            self.resp_diag = ResponseDialog(f'Datos de "{label}" enviados con éxito.')
+        else:
+            self.resp_diag = ResponseDialog(f'Error al enviar datos de "{label}": {response.status_code}' + response.text)
+        
+
 
     def apply_time(self):
         try:

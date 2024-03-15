@@ -12,6 +12,12 @@ import glob
 import bitalino
 
 
+class ConnectDialog(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('connect_dialog.ui', self)
+        self.show()
+
 class Plotter(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
@@ -22,8 +28,8 @@ class Plotter(QtWidgets.QMainWindow):
         self.adq_time = 5
         self.recording = False
         pg.setConfigOption('foreground', '#000000')
-        self.mac_address = "98:D3:71:FD:62:1F"
-        self.device = bitalino.BITalino(self.mac_address)
+        #self.mac_address = "98:D3:71:FD:62:1F"
+        #self.device = bitalino.BITalino(self.mac_address)
         
 
         self.plot_widget = pg.PlotWidget()
@@ -41,33 +47,73 @@ class Plotter(QtWidgets.QMainWindow):
 
         self.start_b.setEnabled(True)
         self.start_b.clicked.connect(self.start_aq)
+        self.connect_b.clicked.connect(self.open_connect)
         self.timer.timeout.connect(self.update)
-        self.selected_file = ""
+        self.time_ledit.setText("5")
+        self.apply_t_b.clicked.connect(self.apply_time)
 
+        self.fsrb_10.toggled.connect(self.fsrb_onclick)
+        self.fsrb_100.toggled.connect(self.fsrb_onclick)
+        self.fsrb_1000.toggled.connect(self.fsrb_onclick)
 
-        self.timer.start(3)
+        self.timer.start(1)
 
+    def apply_time(self):
+        try:
+            new_time = int(self.time_ledit.text())
+        except Exception as e:
+            print("Error", e)
+        else:
+            self.adq_time = new_time
+            print(self.adq_time)
 
+    def fsrb_onclick(self):
+        if self.fsrb_10.isChecked():
+            self.fs=10
+        if self.fsrb_100.isChecked():
+            self.fs=100
+        if self.fsrb_1000.isChecked():
+            self.fs=1000
 
+    def open_connect(self):
+        self.conn_dialog = ConnectDialog()
+        self.conn_dialog.setWindowTitle("Iniciar conexión")
+        self.conn_dialog.conn_b.clicked.connect(self.connect_device)
+        
+    
+    def connect_device(self):
+        input_mac = self.conn_dialog.mac_ledit.text()
+        if input_mac:
+            try:
+                self.conn_dialog.conn_label.setText("Conectando...")
+                QtWidgets.QApplication.processEvents()
+                self.device = bitalino.BITalino(input_mac)
+            except Exception as e:
+                self.conn_dialog.conn_label.setText("Error")
+            else:
+                self.conn_dialog.conn_label.setText("Conectado")
+                self.mac_address = input_mac
 
     def start_aq(self):
         if not self.recording:
             self.recording = True
             self.start_b.setEnabled(True)
-            self.device.start(1000, [1])
+            self.device.start(self.fs, [1])
+            self.data = []
+            self.time = np.linspace(0, self.adq_time, self.fs*self.adq_time)
+            self.pen = pg.mkPen(color=(0, 0, 255))
+            self.curve.clearData()
             self.start_b.setText("Detener Adquisición 🛑")
         else:
             self.recording = False
-            self.start_b.setEnabled(False)
             self.device.stop()
             self.start_b.setText("Iniciar adquisición ▶")
 
 
 
     def update(self): 
-        
         if self.recording:
-            samples = self.device.read(100)
+            samples = self.device.read(int(self.fs/10))
             last_values = samples[:, -1]
             try:
                 # Desplazar los datos existentes hacia adelante y actualizar los últimos 100 valores
@@ -81,6 +127,9 @@ class Plotter(QtWidgets.QMainWindow):
                     self.curve.setData(self.time, self.data, pen=self.pen)
 
                 print(len(self.data))
+                print(self.fs*self.adq_time)
+                if len(self.data)>=(self.fs*self.adq_time):
+                    self.start_aq()
                 
                 # Ejemplo de actualización de texto
             except ValueError as e:

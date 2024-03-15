@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1592</width>
+    <width>1621</width>
     <height>794</height>
    </rect>
   </property>
@@ -37,18 +37,21 @@
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>1160</x>
+      <x>1150</x>
       <y>10</y>
-      <width>431</width>
-      <height>791</height>
+      <width>441</width>
+      <height>781</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="main_grid">
+    <layout class="QGridLayout" name="main_grid" rowstretch="0,0,0,0,0,0,0,0,0">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
      <property name="leftMargin">
       <number>15</number>
      </property>
      <property name="topMargin">
-      <number>15</number>
+      <number>50</number>
      </property>
      <property name="rightMargin">
       <number>15</number>
@@ -56,21 +59,27 @@
      <property name="bottomMargin">
       <number>15</number>
      </property>
-     <item row="2" column="0" colspan="3">
+     <property name="horizontalSpacing">
+      <number>50</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>100</number>
+     </property>
+     <item row="8" column="0" colspan="3">
+      <widget class="QPushButton" name="load_b">
+       <property name="text">
+        <string>Subir última adquisición</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0" colspan="3">
       <widget class="QPushButton" name="start_b">
        <property name="text">
         <string>Nueva adquisición ▶</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="0" colspan="3">
-      <widget class="QPushButton" name="connect_b">
-       <property name="text">
-        <string>Conectar dispositivo</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0" colspan="2">
+     <item row="7" column="0" colspan="2">
       <widget class="QLabel" name="apikey_lab">
        <property name="enabled">
         <bool>true</bool>
@@ -107,7 +116,72 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
+     <item row="0" column="0" colspan="3">
+      <widget class="QPushButton" name="connect_b">
+       <property name="text">
+        <string>Conectar dispositivo</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="3">
+      <layout class="QVBoxLayout" name="rblay1">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Frecuencia de muestreo</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="rblay2">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QRadioButton" name="fsrb_10">
+           <property name="text">
+            <string>10 Hz</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="fsrb_100">
+           <property name="text">
+            <string>100 Hz</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="fsrb_1000">
+           <property name="text">
+            <string>1000 Hz</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item row="7" column="2">
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
       <widget class="QLineEdit" name="time_ledit">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -118,8 +192,11 @@
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
+       <property name="text">
+        <string/>
+       </property>
        <property name="maxLength">
-        <number>0</number>
+        <number>100</number>
        </property>
        <property name="frame">
         <bool>true</bool>
@@ -132,7 +209,7 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0" colspan="2">
+     <item row="2" column="0">
       <widget class="QLabel" name="time_lab">
        <property name="enabled">
         <bool>true</bool>
@@ -146,7 +223,7 @@
        <property name="font">
         <font>
          <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
+         <pointsize>6</pointsize>
          <weight>50</weight>
          <bold>false</bold>
          <kerning>true</kerning>
@@ -169,20 +246,10 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0" colspan="3">
-      <widget class="QPushButton" name="load_b">
+     <item row="2" column="2">
+      <widget class="QPushButton" name="apply_t_b">
        <property name="text">
-        <string>Subir última adquisición</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QLineEdit" name="lineEdit">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+        <string>Aplicar</string>
        </property>
       </widget>
      </item>

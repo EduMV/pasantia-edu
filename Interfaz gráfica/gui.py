@@ -12,17 +12,27 @@ import glob
 import bitalino
 import requests
 
+#ei_6339e7e8004e5c26fb90502f26ef63209bf73bdb78fbf4e6a5ca848eaae6c0cc
+
+class SaveDialog(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('save_dialog.ui', self)
+        self.setWindowIcon(QtGui.QIcon("logo_upch.jpeg"))
+        self.show()
 
 class ConnectDialog(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
         uic.loadUi('connect_dialog.ui', self)
+        self.setWindowIcon(QtGui.QIcon("logo_upch.jpeg"))
         self.show()
 
 class ResponseDialog(QtWidgets.QDialog):
     def __init__(self, message):
         super().__init__()
         uic.loadUi('response.ui', self)
+        self.setWindowIcon(QtGui.QIcon("logo_upch.jpeg"))
         self.show()
         self.resp_label.setText(message)
 
@@ -30,7 +40,8 @@ class Plotter(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("plotter.ui", self)
-        self.setWindowTitle("Proyecto1")
+        self.setWindowTitle("BitaConnectino")
+        self.setWindowIcon(QtGui.QIcon("logo_upch.jpeg"))
         #self.setWindowIcon(QtGui.QIcon("logo.png"))
         self.fs = 1000
         self.adq_time = 5
@@ -43,6 +54,7 @@ class Plotter(QtWidgets.QMainWindow):
         self.api_key = ""
         self.filename = ""
         self.label = ""
+        self.dispjson = "disp.json"
 
 
         self.plot_widget = pg.PlotWidget()
@@ -53,7 +65,7 @@ class Plotter(QtWidgets.QMainWindow):
         self.curve = self.plot_widget.plot(self.time, self.data, pen=self.pen)
         
         self.plot_widget.setBackground((240,240,240))
-        self.plot_widget.setLabel('left', 'Amplitud (mV)')
+        self.plot_widget.setLabel('left', 'Datos crudos')
         self.plot_widget.setLabel('bottom', 'Tiempo (s)')
         self.plot_widget.showGrid(x=True, y=True)
         self.timer = QtCore.QTimer()
@@ -65,12 +77,39 @@ class Plotter(QtWidgets.QMainWindow):
         self.time_ledit.setText("5")
         self.apply_t_b.clicked.connect(self.apply_time)
         self.upload_b.clicked.connect(self.upload_data)
+        self.save_b.clicked.connect(self.open_save)
 
         self.fsrb_10.toggled.connect(self.fsrb_onclick)
         self.fsrb_100.toggled.connect(self.fsrb_onclick)
         self.fsrb_1000.toggled.connect(self.fsrb_onclick)
 
         self.timer.start(1)
+
+    def open_save(self):
+        self.save_diag = SaveDialog()
+        self.save_diag.setWindowTitle("Conectar dispositivo")
+        self.save_diag.savemac_b.clicked.connect(self.save_mac_disp)
+    
+    def save_mac_disp(self):
+        mac = self.save_diag.macname_ledit.text()
+        disp = self.save_diag.dispname_ledit.text()
+        try:
+            # Intentar abrir el archivo existente para leer los datos existentes
+            with open(self.dispjson, "r") as file:
+                data = json.load(file)
+        except FileNotFoundError:
+            # Si el archivo no existe, empezar con un diccionario vacío
+            data = {}
+
+        # Actualizar o añadir la nueva entrada
+        data[mac] = disp
+
+        # Escribir los datos actualizados de nuevo al archivo
+        with open(self.dispjson, "w") as file:
+            json.dump(data, file, indent=4)
+
+        print(f"Dispositivo {disp} con MAC {mac} guardado exitosamente.")
+        
 
     def upload_data(self):
         api_key = self.apik_ledit.text()
@@ -131,12 +170,24 @@ class Plotter(QtWidgets.QMainWindow):
 
     def open_connect(self):
         self.conn_dialog = ConnectDialog()
+        try:
+            with open(self.dispjson, "r") as archivo:
+                data = json.load(archivo)
+            for mac, disp in data.items():
+                # Crea un nuevo QListWidgetItem
+                item = QtWidgets.QListWidgetItem(f"{disp} - {mac}")
+                self.conn_dialog.macs_list_widg.addItem(item)
+        except FileNotFoundError:
+            print("El archivo de historial no existe. Por favor, primero guarde algún dispositivo.")
         self.conn_dialog.setWindowTitle("Iniciar conexión")
         self.conn_dialog.conn_b.clicked.connect(self.connect_device)
         
     
     def connect_device(self):
-        input_mac = self.conn_dialog.mac_ledit.text()
+        input_mac = ""
+        item = self.conn_dialog.macs_list_widg.currentItem()
+        if item is not None:
+            input_mac = item.data(0) 
         if input_mac:
             try:
                 self.conn_dialog.conn_label.setText("Conectando...")

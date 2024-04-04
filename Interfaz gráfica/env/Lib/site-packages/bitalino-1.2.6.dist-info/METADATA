@@ -1,0 +1,65 @@
+Metadata-Version: 2.1
+Name: bitalino
+Version: 1.2.6
+Summary: revolution-python-api
+Home-page: http://www.bitalino.com/
+Download-URL: https://github.com/BITalinoWorld/revolution-python-api
+Author: BITalinoWorld
+Author-email: bitalino@plux.info
+License: GNU GPL v3
+Keywords: BITalino,Physiological Computing,Biosignal,Physiological Signal
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.7
+License-File: LICENSE.md
+Requires-Dist: numpy (>1.19)
+Requires-Dist: pyserial (==3.5)
+Requires-Dist: PyBluez-bitalino (==0.30)
+
+# BITalino (r)evolution Python API
+
+The BITalino (r)evolution Python API provides the needed tools to interact with BITalino (r)evolution using Python.
+
+## Dependencies
+
+- [Python3.7 +](https://www.python.org/downloads/)
+- [NumPy](https://github.com/numpy/numpy)
+- [pySerial](https://github.com/pyserial/pyserial)
+- [PyBluez](https://github.com/pybluez/pybluez) (Not needed for macOS)
+
+## Installation
+
+Install [**bitalino**](https://pypi.org/project/bitalino/) API package from PyPI:
+
+```winbatch
+pip install bitalino
+```
+
+Or clone this repository and install using pip:
+
+```winbatch
+git clone https://github.com/BITalinoWorld/revolution-python-api.git
+cd revolution-python-api
+pip install .
+```
+
+## Documentation
+
+<http://bitalino.com/pyAPI/>
+
+## Example
+
+A sample script is available at [**samples**](samples) folder.
+
+## License
+
+This project is licensed under the [GNU GPL v3](LICENSE.md)
+
+

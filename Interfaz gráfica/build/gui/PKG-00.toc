@@ -1,0 +1,71 @@
+('C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+ 'gráfica\\build\\gui\\gui.pkg',
+ {'BINARY': True,
+  'DATA': True,
+  'EXECUTABLE': True,
+  'EXTENSION': True,
+  'PYMODULE': True,
+  'PYSOURCE': True,
+  'PYZ': False,
+  'SPLASH': True,
+  'SYMLINK': False},
+ [('pyi-contents-directory _internal', '', 'OPTION'),
+  ('PYZ-00.pyz',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\build\\gui\\PYZ-00.pyz',
+   'PYZ'),
+  ('struct',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\build\\gui\\localpycs\\struct.pyc',
+   'PYMODULE'),
+  ('pyimod01_archive',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\build\\gui\\localpycs\\pyimod01_archive.pyc',
+   'PYMODULE'),
+  ('pyimod02_importers',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\build\\gui\\localpycs\\pyimod02_importers.pyc',
+   'PYMODULE'),
+  ('pyimod03_ctypes',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\build\\gui\\localpycs\\pyimod03_ctypes.pyc',
+   'PYMODULE'),
+  ('pyimod04_pywin32',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\build\\gui\\localpycs\\pyimod04_pywin32.pyc',
+   'PYMODULE'),
+  ('pyiboot01_bootstrap',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\env\\lib\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
+   'PYSOURCE'),
+  ('pyi_rth_inspect',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\env\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
+   'PYSOURCE'),
+  ('pyi_rth_pkgutil',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\env\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgutil.py',
+   'PYSOURCE'),
+  ('pyi_rth_multiprocessing',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\env\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_multiprocessing.py',
+   'PYSOURCE'),
+  ('pyi_rth_pyqtgraph_multiprocess',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\env\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\hooks\\rthooks\\pyi_rth_pyqtgraph_multiprocess.py',
+   'PYSOURCE'),
+  ('pyi_rth_pyqt5',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz '
+   'gráfica\\env\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pyqt5.py',
+   'PYSOURCE'),
+  ('gui',
+   'C:\\Users\\eduma\\Desktop\\LID301\\pasantia-edu\\Interfaz gráfica\\gui.py',
+   'PYSOURCE')],
+ 'python310.dll',
+ True,
+ False,
+ False,
+ [],
+ None,
+ None,
+ None)

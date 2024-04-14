@@ -18,21 +18,21 @@ class SaveDialog(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
         uic.loadUi('save_dialog.ui', self)
-        self.setWindowIcon(QtGui.QIcon("logo_upch.jpeg"))
+        self.setWindowIcon(QtGui.QIcon("logo_upch.png"))
         self.show()
 
 class ConnectDialog(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
         uic.loadUi('connect_dialog.ui', self)
-        self.setWindowIcon(QtGui.QIcon("logo_upch.jpeg"))
+        self.setWindowIcon(QtGui.QIcon("logo_upch.png"))
         self.show()
 
 class ResponseDialog(QtWidgets.QDialog):
     def __init__(self, message):
         super().__init__()
         uic.loadUi('response.ui', self)
-        self.setWindowIcon(QtGui.QIcon("logo_upch.jpeg"))
+        self.setWindowIcon(QtGui.QIcon("logo_upch.png"))
         self.show()
         self.resp_label.setText(message)
 
@@ -41,7 +41,7 @@ class Plotter(QtWidgets.QMainWindow):
         super().__init__()
         uic.loadUi("plotter.ui", self)
         self.setWindowTitle("BitaConnectino")
-        self.setWindowIcon(QtGui.QIcon("logo_upch.jpeg"))
+        self.setWindowIcon(QtGui.QIcon("logo_upch.png"))
         #self.setWindowIcon(QtGui.QIcon("logo.png"))
         self.fs = 1000
         self.adq_time = 5
@@ -82,7 +82,7 @@ class Plotter(QtWidgets.QMainWindow):
         self.fsrb_10.toggled.connect(self.fsrb_onclick)
         self.fsrb_100.toggled.connect(self.fsrb_onclick)
         self.fsrb_1000.toggled.connect(self.fsrb_onclick)
-
+        
         self.timer.start(1)
 
     def open_save(self):
@@ -213,8 +213,6 @@ class Plotter(QtWidgets.QMainWindow):
             self.recording = False
             self.device.stop()
             self.start_b.setText("Iniciar adquisición ▶")
-
-
 
     def update(self): 
         if self.recording:
